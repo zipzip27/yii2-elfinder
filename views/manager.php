@@ -18,6 +18,17 @@ unset($options['noConflict']);
 
 
 $this->registerJs("
+    var FileBrowserDialogue = {
+    init: function() {
+      // Here goes your code for setting your custom things onLoad.
+    },
+    mySubmit: function (file, elf) {
+      // pass selected file data to TinyMCE
+      parent.tinymce.activeEditor.windowManager.getParams().oninsert(file, elf);
+      // close popup window
+      parent.tinymce.activeEditor.windowManager.close();
+    }
+  }
 function ElFinderGetCommands(disabled){
     var Commands = elFinder.prototype._options.commands;
     $.each(disabled, function(i, cmd) {

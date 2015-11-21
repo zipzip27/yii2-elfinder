@@ -58,7 +58,70 @@ class ElFinder extends BaseWidjet{
 		$params[0] = '/'.$controller."/manager";
 		return Yii::$app->urlManager->createUrl($params);
 	}
+	public static function tinyMceOptions($controller, $options = []){
+		if(is_array($controller)){
+			$id = $controller[0];
+			unset($controller[0]);
+			$params = $controller;
+		}else{
+			$id = $controller;
+			$params = [];
+		}
+		
+		if(isset($params['startPath'])){
+			$params['#'] = ElFinder::genPathHash($params['startPath']);
+			unset($params['startPath']);
+		}
 
+		$file= self::getManagerUrl($id, ArrayHelper::merge($params, ['filter'=>'image','tinymce'=>true]));
+		$js = "
+		function elFinderBrowser(callback, value, meta) {
+		  tinymce.activeEditor.windowManager.open({
+		    file: '$file',// use an absolute path!
+		    title: 'elFinder 2.0',
+		    width: 900,  
+		    height: 450,
+		    resizable: 'yes'
+		  }, {
+		    oninsert: function (file, elf) {
+		      var url, reg, info;
+
+		      // URL normalization
+		      url = file.url;
+		      reg = /\/[^/]+?\/\.\.\//;
+		      while(url.match(reg)) {
+		        url = url.replace(reg, '/');
+		      }
+
+		      // Make file info
+		      info = file.name + ' (' + elf.formatSize(file.size) + ')';
+
+		      // Provide file and text for the link dialog
+		      if (meta.filetype == 'file') {
+		        callback(url, {text: info, title: info});
+		      }
+
+		      // Provide image and alt text for the image dialog
+		      if (meta.filetype == 'image') {
+		        callback(url, {alt: info});
+		      }
+
+		      // Provide alternative source and posted for the media dialog
+		      if (meta.filetype == 'media') {
+		        callback(url);
+		      }
+		    }
+		  });
+		  return false;
+		}";
+		Yii::$app->view->registerJs($js, \yii\web\View::POS_END);
+		/* return ArrayHelper::merge([
+				'filebrowserBrowseUrl' => self::getManagerUrl($id, $params),
+				'filebrowserImageBrowseUrl' => self::getManagerUrl($id, ArrayHelper::merge($params, ['filter'=>'image'])),
+				'filebrowserFlashBrowseUrl' => self::getManagerUrl($id, ArrayHelper::merge($params, ['filter'=>'flash'])),
+		], $options); */
+		return new \yii\web\JsExpression('elFinderBrowser');
+	}
 	public static function ckeditorOptions($controller, $options = []){
 
 		if(is_array($controller)){
