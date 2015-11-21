@@ -1,0 +1,21 @@
+{
+    "name": "lodovo/yii2-elfinder",
+    "description": "Elfinder for yii2",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","elfinder"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "nhatvy2015",
+            "email": "nhatvy2015@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "lodovo\\elfinder\\": ""
+        }
+    }
+}
