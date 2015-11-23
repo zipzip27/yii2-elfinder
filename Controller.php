@@ -15,7 +15,7 @@ use yii\helpers\ArrayHelper;
 
 /**
  * Class Controller
- * @package mihaildev\elfinder
+ * @package lodovo\elfinder
  * @property array $options
  */
 
@@ -39,11 +39,11 @@ class Controller extends BaseController{
 				$root = ['path' => $root];
 
 			if(!isset($root['class']))
-				$root['class'] = 'mihaildev\elfinder\LocalPath';
+				$root['class'] = 'lodovo\elfinder\LocalPath';
 
 			$root = Yii::createObject($root);
 
-			/** @var \mihaildev\elfinder\LocalPath $root*/
+			/** @var \lodovo\elfinder\LocalPath $root*/
 
 			if($root->isAvailable())
 				$this->_options['roots'][] = $root->getRoot();

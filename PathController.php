@@ -3,9 +3,9 @@
  * Date: 28.11.2014
  * Time: 14:21
  *
- * This file is part of the MihailDev project.
+ * This file is part of the lodovo project.
  *
- * (c) MihailDev project <http://github.com/mihaildev/>
+ * (c) lodovo project <http://github.com/lodovo/>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -19,7 +19,7 @@ use Yii;
 /**
  * Class PathController
  *
- * @package mihaildev\elfinder
+ * @package lodovo\elfinder
  */
 class PathController extends BaseController{
 	public $disabledCommands = ['netmount'];
@@ -49,7 +49,7 @@ class PathController extends BaseController{
 			$root = ['path' => $root];
 
 		if(!isset($root['class']))
-			$root['class'] = 'mihaildev\elfinder\LocalPath';
+			$root['class'] = 'lodovo\elfinder\LocalPath';
 
 		if(!empty($subPath)){
 			if(preg_match("/\./i", $subPath)){
@@ -64,7 +64,7 @@ class PathController extends BaseController{
 
 		$root = Yii::createObject($root);
 
-		/** @var \mihaildev\elfinder\LocalPath $root*/
+		/** @var \lodovo\elfinder\LocalPath $root*/
 
 		if($root->isAvailable())
 			$this->_options['roots'][] = $root->getRoot();
